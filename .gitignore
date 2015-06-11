@@ -1,0 +1,13 @@
+coreboot
+kout.txt
+os.iso
+kernel.elf
+bochslog.txt
+nohup.out
+screenlog.2
+hardcopy.2
+com1.out
+
+*.swp
+*.o
+*.dup
