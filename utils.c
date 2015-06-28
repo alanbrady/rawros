@@ -21,7 +21,7 @@ void printk(const unsigned short out, const char* str,
             break;
         case RPRINT_COM1:
             if (!isSerialInit) {
-                serial_init(SERIAL_COM_BASE);
+                serial_init(SERIAL_COM1);
                 isSerialInit = 1;
             }
             serial_write_data(str, len);
@@ -39,34 +39,34 @@ void intToStr(int i, char* buf) {
         int mod = i%10;
         switch(mod) {
             case 0:
-                buf = "0";            
+                buf = "0";
                 break;
             case 1:
-                buf = "1";            
+                buf = "1";
                 break;
             case 2:
-                buf = "2";            
+                buf = "2";
                 break;
             case 3:
-                buf = "3";            
+                buf = "3";
                 break;
             case 4:
-                buf = "4";            
+                buf = "4";
                 break;
             case 5:
-                buf = "5";            
+                buf = "5";
                 break;
             case 6:
-                buf = "6";            
+                buf = "6";
                 break;
             case 7:
-                buf = "7";            
+                buf = "7";
                 break;
             case 8:
-                buf = "8";            
+                buf = "8";
                 break;
             case 9:
-                buf = "9";            
+                buf = "9";
                 break;
         }
         buf++;
