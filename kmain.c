@@ -14,6 +14,8 @@ int kmain() {
     printk(RPRINT_FB, "test3", _strlen("test3"));
     printk(RPRINT_FB, " test4\n", _strlen(" test4\n"));
 
+    printk(RPRINT_COM2, "test", _strlen("test"));
+
     // TODO - implement memory allocs needed (?) 
     /*char* buf;*/
     /*intToStr(3, buf);*/
