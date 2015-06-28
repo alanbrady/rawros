@@ -9,10 +9,10 @@ int kmain() {
     /*rprintf(RPRINT_COM1, out, _strlen(out));*/
     clrscr();
     out = "hello frame buffer!\n";
-    rprintf(RPRINT_FB, out, _strlen(out)); 
-    rprintf(RPRINT_FB, "test2\n", _strlen("test2\n"));
-    rprintf(RPRINT_FB, "test3", _strlen("test3"));
-    rprintf(RPRINT_FB, " test4\n", _strlen(" test4\n"));
+    printk(RPRINT_FB, out, _strlen(out)); 
+    printk(RPRINT_FB, "test2\n", _strlen("test2\n"));
+    printk(RPRINT_FB, "test3", _strlen("test3"));
+    printk(RPRINT_FB, " test4\n", _strlen(" test4\n"));
 
     // TODO - implement memory allocs needed (?) 
     /*char* buf;*/

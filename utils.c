@@ -9,11 +9,11 @@ unsigned int _strlen(const char* str) {
     while (len < MAX_STR_LEN && *str != '\0') {
         ++str;
         ++len;
-    }
+    } 
     return len;
 }
 
-void rprintf(const unsigned short out, const char* str,
+void printk(const unsigned short out, const char* str,
         const unsigned int len) {
     switch(out) {
         case RPRINT_FB:

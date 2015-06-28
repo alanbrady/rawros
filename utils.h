@@ -8,7 +8,8 @@
 
 unsigned int _strlen(const char* str);
 
-void rprintf(const unsigned short out, const char* str, const unsigned int len);
+void printk(const unsigned short out, const char* str,
+        const unsigned int len);
 
 void clrscr();
 
