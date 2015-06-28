@@ -1,15 +1,15 @@
 #include "serial.h"
 #include "io.h"
 
-void serial_write(char a) {
-    while(serial_is_transmit_empty(SERIAL_COM1) == 0);
-    outb(SERIAL_COM1, a);
+void serial_write(char a, const unsigned short com) {
+    while(serial_is_transmit_empty(com) == 0);
+    outb(com, a);
 }
 
-void serial_write_data(const char* str, const unsigned int len) {
+void serial_write_data(const char* str, const unsigned int len, const unsigned short com) {
     unsigned int i = 0;
     for(; i < len; ++i, ++str) {
-        serial_write(*str);
+        serial_write(*str, com);
     }
 }
 

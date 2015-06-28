@@ -37,8 +37,8 @@
 
 //#define SERIAL_LINE_ENABLE_DLAB             0x80
 
-void serial_write(char a);
-void serial_write_data(const char* str, const unsigned int len);
+void serial_write(char a, const unsigned short com);
+void serial_write_data(const char* str, const unsigned int len, const unsigned short com);
 void serial_init(unsigned short com);
 
 /**
