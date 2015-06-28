@@ -5,6 +5,7 @@
 
 #define RPRINT_FB 1
 #define RPRINT_COM1 2
+#define RPRINT_COM2 3
 
 unsigned int _strlen(const char* str);
 

@@ -2,7 +2,8 @@
 #include "fb_out_drv.h"
 #include "serial.h"
 
-unsigned char isSerialInit = 0;
+unsigned char isCom1Init = 0;
+unsigned char isCom2Init = 0;
 
 unsigned int _strlen(const char* str) {
     unsigned int len = 0;
@@ -20,12 +21,19 @@ void printk(const unsigned short out, const char* str,
             fb_write(str, len);
             break;
         case RPRINT_COM1:
-            if (!isSerialInit) {
+            if (!isCom1Init) {
                 serial_init(SERIAL_COM1);
-                isSerialInit = 1;
+                isCom1Init = 1;
             }
-            serial_write_data(str, len);
+            serial_write_data(str, len, SERIAL_COM1);
             break;
+        case RPRINT_COM2:
+           if (!isCom2Init) {
+               serial_init(SERIAL_COM2);
+               isCom2Init = 1;
+           } 
+           serial_write_data(str, len, SERIAL_COM2);
+           break;
     }
 }
 
