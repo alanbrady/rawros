@@ -18,7 +18,7 @@
 
 #define SERIAL_LINE_CONTROL_REG(base)       (base+3)
 #define SERIAL_MODEM_CONTROL_REG(base)      (base+4)
-#define SERIAL_STATUS_PORT(base)            (base+5)
+#define SERIAL_LINE_STATUS_REG(base)        (base+5)
 
 // Line Control Register Options
 #define SERIAL_LCR_WORDLEN_5                0x00
@@ -34,6 +34,21 @@
 #define SERIAL_LCR_EVEN_PARITY              0x18
 #define SERIAL_LCR_MARK                     0x28
 #define SERIAL_LCR_SPACE                    0x38
+
+#define SERIAL_IIR_MODEM_STATUS             0x00
+#define SERIAL_IIR_TX_HOLDING_REG_EMPTY     0x02
+#define SERIAL_IIR_RX_DATA_AVAILABLE        0x04
+#define SERIAL_IIR_RX_LINE_STATUS           0x06
+#define SERIAL_IIR TIMEOUT_PENDING          0x0C
+
+#define SERIAL_LSR_DATA_RDY                 0x01
+#define SERIAL_LSR_OVERRUN_ERR              0x02
+#define SERIAL_LSR_PARITY_ERR               0x04
+#define SERIAL_LSR_FRAMING_ERR              0x08
+#define SERIAL_LSR_BREAK_INT                0x10
+#define SERIAL_LSR_EMPTY_TX_HOLDING_REG     0x20
+#define SERIAL_LSR_EMPTY_RX_HOLDING_REG     0x40
+#define SERIAL_LSR_ERR_RX_FIFO              0x80
 
 //#define SERIAL_LINE_ENABLE_DLAB             0x80
 
@@ -57,6 +72,9 @@ void serial_disable_dlab(unsigned short com);
 
 void serial_enable_rda_interrupt(unsigned short com);
 void serial_disable_rda_interrupt(unsigned short com);
+
+int serial_is_interrupt_pending(unsigned short com);
+int serial_identify_interrupt(unsigned short com);
 
 int serial_is_transmit_empty(unsigned short com);
 

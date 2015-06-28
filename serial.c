@@ -49,8 +49,10 @@ void serial_set_baud_rate(unsigned short com, unsigned int frequency) {
 int serial_configure_line(unsigned short com, unsigned short wordLength,
         unsigned short parity, unsigned short stopBits) {
     // check for invalid wordLength
-    if (wordLength < SERIAL_LCR_WORDLEN_5 || 
-            wordLength > SERIAL_LCR_WORDLEN_8) {
+    if (wordLength != SERIAL_LCR_WORDLEN_5 &&
+            wordLength != SERIAL_LCR_WORDLEN_6 &&
+            wordLength != SERIAL_LCR_WORDLEN_7 &&
+            wordLength != SERIAL_LCR_WORDLEN_8) {
         return 0;
     }
 
@@ -70,13 +72,13 @@ int serial_configure_line(unsigned short com, unsigned short wordLength,
     }
 
     // good to go, setup our LCR with the given options
-    outb(SERIAL_LINE_CONTROL_REG(com), 
+    outb(SERIAL_LINE_CONTROL_REG(com),
             wordLength | parity | stopBits);
     return -1;
 }
 
 void serial_configure_modem(unsigned short com) {
-    outb(SERIAL_MODEM_CONTROL_REG(com), 0x03);
+    outb(SERIAL_MODEM_CONTROL_REG(com), 0x0B);
 }
 
 void serial_configure_buffers(unsigned short com) {
@@ -84,7 +86,8 @@ void serial_configure_buffers(unsigned short com) {
 }
 
 int serial_is_transmit_empty(unsigned short com) {
-    return (inb(SERIAL_STATUS_PORT(com)) & 0x20);
+    return (inb(SERIAL_LINE_STATUS_REG(com)) &
+            SERIAL_LSR_EMPTY_TX_HOLDING_REG);
 }
 
 void serial_enable_dlab(unsigned short com) {
@@ -103,4 +106,12 @@ void serial_enable_rda_interrupt(unsigned short com) {
 
 void serial_disable_rda_interrupt(unsigned short com) {
     outb(SERIAL_INTERRUPT_ENABLE_REG(com), 0x00);
+}
+
+int serial_is_interrupt_pending(unsigned short com) {
+    return (inb(SERIAL_INTERRUPT_ID_REG(com)) & 0x01) == 0x01;
+}
+
+int serial_identify_interrupt(unsigned short com) {
+    return inb(SERIAL_INTERRUPT_ID_REG(com)) & 0x0E;
 }
