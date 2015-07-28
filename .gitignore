@@ -11,3 +11,6 @@ com1.out
 *.swp
 *.o
 *.dup
+
+gdb-bochs
+.storage/*

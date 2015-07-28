@@ -1,12 +1,21 @@
 #include "serial.h"
 #include "io.h"
 
-void serial_write(char a, const unsigned short com) {
+void serial_write(unsigned char a, const unsigned short com) {
     while(serial_is_transmit_empty(com) == 0);
     outb(com, a);
 }
 
-void serial_write_data(const char* str, const unsigned int len, const unsigned short com) {
+void serial_write_int(unsigned int i, const unsigned short com) {
+    unsigned int k = 0;
+    for (; k < 4; ++k) {
+        while(serial_is_transmit_empty(com) == 0);
+        outb(com, (i >> (3-k))&0xFF);
+    }
+}
+
+void serial_write_data(const char* str, const unsigned int len,
+        const unsigned short com) {
     unsigned int i = 0;
     for(; i < len; ++i, ++str) {
         serial_write(*str, com);
