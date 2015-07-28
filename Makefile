@@ -17,7 +17,7 @@ kernel.elf: $(OBJECTS)
 	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
 run:
-	bochs -f bochs_config -q
+	sudo bochs -f bochs_config -q
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@

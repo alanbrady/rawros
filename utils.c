@@ -1,38 +1,34 @@
 #include "utils.h"
+#include "string.h"
 #include "fb_out_drv.h"
 #include "serial.h"
+
+#define MAX_PRINTK_LEN 300
+
+char printk_buf[MAX_PRINTK_LEN];
 
 unsigned char isCom1Init = 0;
 unsigned char isCom2Init = 0;
 
-unsigned int _strlen(const char* str) {
-    unsigned int len = 0;
-    while (len < MAX_STR_LEN && *str != '\0') {
-        ++str;
-        ++len;
-    } 
-    return len;
-}
-
-void printk(const unsigned short out, const char* str,
-        const unsigned int len) {
+void printk(const unsigned short out, const char* fmt, ...) {
+    unsigned int len = strlen(fmt);
     switch(out) {
-        case RPRINT_FB:
-            fb_write(str, len);
+        case PRINTK_FB:
+            fb_write(fmt, len);
             break;
-        case RPRINT_COM1:
+        case PRINTK_COM1:
             if (!isCom1Init) {
                 serial_init(SERIAL_COM1);
                 isCom1Init = 1;
             }
-            serial_write_data(str, len, SERIAL_COM1);
+            serial_write_data(fmt, len, SERIAL_COM1);
             break;
-        case RPRINT_COM2:
+        case PRINTK_COM2:
            if (!isCom2Init) {
                serial_init(SERIAL_COM2);
                isCom2Init = 1;
            } 
-           serial_write_data(str, len, SERIAL_COM2);
+           serial_write_data(fmt, len, SERIAL_COM2);
            break;
     }
 }
