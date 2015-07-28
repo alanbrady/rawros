@@ -1,3 +1,4 @@
+; vim syn=nasm
 global outb
 
 outb:
