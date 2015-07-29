@@ -1,4 +1,4 @@
-; vim: set ft=nasm:
+; vim: set ft=nasm
 global memset
 memset:
     push ebp
@@ -17,4 +17,4 @@ memread:
     mov eax, [ebp+8]
     leave
     ret
-    
+
