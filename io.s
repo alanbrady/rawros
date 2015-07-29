@@ -1,4 +1,4 @@
-; vim syn=nasm
+; vim: ft=nasm
 global outb
 
 outb:
