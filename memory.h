@@ -1,9 +1,9 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-int memset(const void* dest, unsigned char c,
+extern int memset(const void* dest, unsigned char c,
        const unsigned long int len);
 
-int memread(int a);
+extern int memread(int a);
 
 #endif
