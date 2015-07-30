@@ -10,10 +10,11 @@ AS = nasm
 ASFLAGS = -f elf32
 TARGET=kernel.elf
 ISO_NAME=os.iso
-BOCHS=/home/rawr/bochs-source/bochs-2.4.6/bochs
+BOCHS=./bochs
+BOCHS_FLAGS= -f ./bochs_config -q
 QEMU=qemu-system-i386
 QEMU_FLAGS= -cdrom $(ISO_NAME)
-QEMU_DEBUG_FLAGS= -s -S -monitor stdio
+QEMU_DEBUG_FLAGS= -s -S -monitor stdio -D /home/rawr/projects/rawros/qemu.log
 
 all: iso
 
@@ -23,8 +24,11 @@ $(TARGET): $(OBJECTS)
 run: iso
 	$(QEMU) $(QEMU_FLAGS)
 
-debug: iso
+qemu: iso
 	$(QEMU) $(QEMU_FLAGS) $(QEMU_DEBUG_FLAGS)
+
+bochs:
+	$(BOCHS) $(BOCHS_FLAGS)
 
 iso: $(TARGET)
 	cp $(TARGET) ./iso/boot/

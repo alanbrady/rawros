@@ -1,7 +1,7 @@
 megs:               32
 display_library:    sdl
-romimage:           file=/home/rawr/bochs-source/bochs-2.4.6/bios/BIOS-qemu-latest
-vgaromimage:        file=/usr/share/bochs/VGABIOS-lgpl-latest
+romimage:           file=/home/rawr/bochs-source/bochs-2.6.8/bios/BIOS-bochs-latest
+vgaromimage:        file=/home/rawr/bochs-source/bochs-2.6.8/bios/VGABIOS-lgpl-latest
 ata0-master:        type=cdrom, path=os.iso, status=inserted
 boot:               cdrom
 log:                bochslog.txt
@@ -9,3 +9,4 @@ clock:              sync=realtime, time0=local
 cpu:                count=1, ips=1000000
 com1:               enabled=1, mode=file, dev=com1.out
 com2:               enabled=1, mode=term, dev=/dev/tty8
+magic_break:        enabled=1
