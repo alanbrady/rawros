@@ -1,6 +1,8 @@
 #ifndef GDT_H
 #define GDT_H
 
+#include "system.h"
+
 #define NUM_GDT_ENTRIES 3
 
 struct _gdt_ptr_t {
@@ -21,8 +23,6 @@ typedef struct {
 gdt_entry_t gdt_entries[NUM_GDT_ENTRIES];
 
 gdt_ptr_t gdt_ptr;
-
-extern void gdt_flush(unsigned long g);
 
 void gdt_set_entry(unsigned int i, unsigned long base, unsigned long limit,
         unsigned char access, unsigned char granularity);
