@@ -7,3 +7,4 @@ extern int memset(const void* dest, unsigned char c,
 extern int memread(int a);
 
 #endif
+/* vim: ft=c */
