@@ -13,3 +13,9 @@ gdt_flush:
     jmp 0x08:flush2
 flush2:
     ret
+
+global idt_flush
+idt_flush:
+    mov eax, [esp+4]
+    lidt [eax]
+    ret
