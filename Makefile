@@ -14,7 +14,7 @@ BOCHS=./bochs
 BOCHS_FLAGS= -f ./bochs_config -q
 QEMU=qemu-system-i386
 QEMU_FLAGS= -cdrom $(ISO_NAME)
-QEMU_DEBUG_FLAGS= -s -S -monitor stdio -D /home/rawr/projects/rawros/qemu.log
+QEMU_DEBUG_FLAGS= -s -S -monitor stdio -D ./qemu.log
 
 all: iso
 
@@ -27,7 +27,7 @@ run: iso
 qemu: iso
 	$(QEMU) $(QEMU_FLAGS) $(QEMU_DEBUG_FLAGS)
 
-bochs:
+bochs: iso
 	$(BOCHS) $(BOCHS_FLAGS)
 
 iso: $(TARGET)
