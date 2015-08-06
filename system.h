@@ -1,8 +1,10 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-extern void gdt_flush(unsigned long g);
+#include "types.h"
 
-extern void idt_flush(unsigned long i);
+extern void gdt_flush(intptr_t p);
+
+extern void idt_flush(intptr_t p);
 
 #endif 
