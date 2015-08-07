@@ -2,7 +2,7 @@
 #include "framebuffer.h"
 #include "fb_cursor_drv.h"
 
-unsigned short fb_curr_pos = 0;
+static unsigned short fb_curr_pos = 0;
 
 void fb_write_string(const char* str, unsigned int len) {
     unsigned int i = 0;
