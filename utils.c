@@ -2,34 +2,41 @@
 #include "string.h"
 #include "fb_out_drv.h"
 #include "serial.h"
+#include "types.h"
 
 #define MAX_PRINTK_LEN 300
 
-char printk_buf[MAX_PRINTK_LEN];
 
-unsigned char isCom1Init = 0;
-unsigned char isCom2Init = 0;
+
+static void printk_char(const unsigned short out, char c);
+
+static unsigned char isCom1Init = 0;
+static unsigned char isCom2Init = 0;
 
 void printk(const unsigned short out, const char* fmt, ...) {
-    unsigned int len = strlen(fmt);
-    switch(out) {
-        case PRINTK_FB:
-            break;
-        case PRINTK_COM1:
-            if (!isCom1Init) {
-                serial_init(SERIAL_COM1);
-                isCom1Init = 1;
+    const char* fmtPtr;
+    unsigned int fmtSize;
+    unsigned int i;
+
+    va_list vl;
+    va_start(vl, fmt);
+    /*int val = va_arg(vl, int);*/
+
+    fmtSize = strlen(fmt);
+    fmtPtr = fmt;
+
+    for (i = 0; i < fmtSize; ++i) {
+        if (*fmtPtr == '%') {
+            char type = *(++fmtPtr);
+            switch (type) {
             }
-            serial_write_data(fmt, len, SERIAL_COM1);
-            break;
-        case PRINTK_COM2:
-           if (!isCom2Init) {
-               serial_init(SERIAL_COM2);
-               isCom2Init = 1;
-           } 
-           serial_write_data(fmt, len, SERIAL_COM2);
-           break;
+        } else {
+            printk_char(out, *fmtPtr);
+        }
+        ++fmtPtr;
     }
+
+    va_end(vl);
 }
 
 void clrscr() {
@@ -77,3 +84,26 @@ void intToStr(int i, char* buf) {
     } while (i != 0);
     buf = '\0';
 }
+
+static void printk_char(const unsigned short out, char c) {
+    switch(out) {
+        case PRINTK_FB:
+            fb_write_char(c);
+            break;
+        case PRINTK_COM1:
+            if (!isCom1Init) {
+                serial_init(SERIAL_COM1);
+                isCom1Init = 1;
+            }
+            serial_write_char(c, SERIAL_COM1);
+            break;
+        case PRINTK_COM2:
+           if (!isCom2Init) {
+               serial_init(SERIAL_COM2);
+               isCom2Init = 1;
+           }
+            serial_write_char(c, SERIAL_COM2);
+           break;
+    }
+}
+
