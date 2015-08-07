@@ -14,7 +14,6 @@ void printk(const unsigned short out, const char* fmt, ...) {
     unsigned int len = strlen(fmt);
     switch(out) {
         case PRINTK_FB:
-            fb_write(fmt, len);
             break;
         case PRINTK_COM1:
             if (!isCom1Init) {
