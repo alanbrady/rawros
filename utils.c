@@ -6,6 +6,8 @@
 
 #define MAX_PRINTK_LEN 300
 
+static void printk_uint(const unsigned short out, unsigned int val);
+static void printk_int(const unsigned short out, int val);
 
 
 static void printk_char(const unsigned short out, char c);
@@ -13,10 +15,18 @@ static void printk_char(const unsigned short out, char c);
 static unsigned char isCom1Init = 0;
 static unsigned char isCom2Init = 0;
 
+typedef union {
+    unsigned int u;
+    int d;
+    uint32_t h;
+    char* s;
+} printk_val_t;
+
 void printk(const unsigned short out, const char* fmt, ...) {
     const char* fmtPtr;
     unsigned int fmtSize;
     unsigned int i;
+    printk_val_t val;
 
     va_list vl;
     va_start(vl, fmt);
@@ -29,6 +39,14 @@ void printk(const unsigned short out, const char* fmt, ...) {
         if (*fmtPtr == '%') {
             char type = *(++fmtPtr);
             switch (type) {
+                case 'u':
+                    val.u = va_arg(vl, unsigned int);
+                    printk_uint(out, val.u);
+                    break;
+                case 'd':
+                    val.d = va_arg(vl, int);
+                    printk_int(out, val.d);
+                    break;
             }
         } else {
             printk_char(out, *fmtPtr);
@@ -83,6 +101,53 @@ void intToStr(int i, char* buf) {
         i = i/10;
     } while (i != 0);
     buf = '\0';
+}
+
+static void printk_uint(const unsigned short out, unsigned int val) {
+    do {
+        int mod = val%10;
+        switch(mod) {
+            case 0:
+                printk_char(out, '0');
+                break;
+            case 1:
+                printk_char(out, '1');
+                break;
+            case 2:
+                printk_char(out, '2');
+                break;
+            case 3:
+                printk_char(out, '3');
+                break;
+            case 4:
+                printk_char(out, '4');
+                break;
+            case 5:
+                printk_char(out, '5');
+                break;
+            case 6:
+                printk_char(out, '6');
+                break;
+            case 7:
+                printk_char(out, '7');
+                break;
+            case 8:
+                printk_char(out, '8');
+                break;
+            case 9:
+                printk_char(out, '9');
+                break;
+        }
+        val = val/10;
+    } while (val != 0);
+}
+
+static void printk_int(const unsigned short out, int val) {
+    if (val < 0) {
+       /*  TODO: print negative */
+        val *= -1;
+    }
+    printk_uint(out, (unsigned int)val);
 }
 
 static void printk_char(const unsigned short out, char c) {
