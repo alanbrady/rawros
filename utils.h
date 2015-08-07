@@ -11,6 +11,6 @@ void printk(const unsigned short out, const char* fmt, ...);
 
 void clrscr();
 
-void intToStr(int i, char* buf);
+void int_to_str(char* buf, int i);
 
 #endif

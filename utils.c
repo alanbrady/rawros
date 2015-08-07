@@ -28,6 +28,7 @@ void printk(const unsigned short out, const char* fmt, ...) {
     unsigned int i;
     printk_val_t val;
 
+
     va_list vl;
     va_start(vl, fmt);
     /*int val = va_arg(vl, int);*/
@@ -62,7 +63,7 @@ void clrscr() {
 }
 
 
-void intToStr(int i, char* buf) {
+void int_to_str(char* buf, int i) {
     do {
         int mod = i%10;
         switch(mod) {
