@@ -8,8 +8,13 @@
 
 // main function loaded through loader.asm
 int kmain() {
+    raminfo_t raminfo;
+
     gdt_init();
     idt_init();
+
+    unsigned int num = get_raminfo((intptr_t)&raminfo);
+    (void)num;
 
     char* buf = "aaaa";
     memset(buf+2, 'b', 2);
