@@ -11,6 +11,7 @@ static void printk_int(const unsigned short out, int val);
 
 
 static void printk_char(const unsigned short out, char c);
+static void printk_string(const unsigned short out, char* str);
 
 static unsigned char isCom1Init = 0;
 static unsigned char isCom2Init = 0;
@@ -47,6 +48,11 @@ void printk(const unsigned short out, const char* fmt, ...) {
                 case 'd':
                     val.d = va_arg(vl, int);
                     printk_int(out, val.d);
+                    break;
+                case 's':
+                    /*(void)printk_string;*/
+                    val.s = va_arg(vl, char*);
+                    printk_string(out, val.s);
                     break;
             }
         } else {
@@ -173,3 +179,27 @@ static void printk_char(const unsigned short out, char c) {
     }
 }
 
+static void printk_string(const unsigned short out, char* str) {
+    unsigned int len;
+
+    len = strlen(str);
+    switch(out) {
+        case PRINTK_FB:
+            fb_write_string(str, 3);
+            break;
+        case PRINTK_COM1:
+            if (!isCom1Init) {
+                serial_init(SERIAL_COM1);
+                isCom1Init = 1;
+            }
+            serial_write_data(str, len, SERIAL_COM1);
+            break;
+        case PRINTK_COM2:
+           if (!isCom2Init) {
+               serial_init(SERIAL_COM2);
+               isCom2Init = 1;
+           }
+            serial_write_data(str, len, SERIAL_COM2);
+           break;
+    }
+}
