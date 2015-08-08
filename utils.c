@@ -8,7 +8,12 @@
 
 static void printk_uint(const unsigned short out, unsigned int val);
 static void printk_int(const unsigned short out, int val);
+static void printk_hex8(const unsigned short out, uint8_t val);
+static void printk_hex16(const unsigned short out, uint16_t val);
+static void printk_hex32(const unsigned short out, uint32_t val);
+static void printk_hex64(const unsigned short out, uint64_t val);
 
+static void printk_hex_nibble(const unsigned short out, uint8_t val);
 
 static void printk_char(const unsigned short out, char c);
 static void printk_string(const unsigned short out, char* str);
@@ -29,6 +34,9 @@ void printk(const unsigned short out, const char* fmt, ...) {
     unsigned int i;
     printk_val_t val;
 
+    (void)printk_hex8;
+    (void)printk_hex16;
+    (void)printk_hex64;
 
     va_list vl;
     va_start(vl, fmt);
@@ -48,6 +56,10 @@ void printk(const unsigned short out, const char* fmt, ...) {
                 case 'd':
                     val.d = va_arg(vl, int);
                     printk_int(out, val.d);
+                    break;
+                case 'h':
+                    val.h = va_arg(vl, uint32_t);
+                    printk_hex32(out, val.h);
                     break;
                 case 's':
                     /*(void)printk_string;*/
@@ -155,6 +167,91 @@ static void printk_int(const unsigned short out, int val) {
         val *= -1;
     }
     printk_uint(out, (unsigned int)val);
+}
+
+static void printk_hex8(const unsigned short out, uint8_t val) {
+    int i = 0;
+    for (; i < 2; ++i) {
+        printk_hex_nibble(out, (uint8_t)val);
+        val = val >> 4;
+    }
+}
+
+static void printk_hex16(const unsigned short out, uint16_t val) {
+    int i = 0;
+    for (; i < 2; ++i) {
+        printk_hex_nibble(out, (uint8_t)val);
+        val = val >> 4;
+    }
+}
+
+static void printk_hex32(const unsigned short out, uint32_t val) {
+    int i = 0;
+    for (; i < 8; ++i) {
+        printk_hex_nibble(out, (uint8_t)val);
+        val = val >> 4;
+    }
+}
+
+static void printk_hex64(const unsigned short out, uint64_t val) {
+    int i;
+    for (i = 0; i < 16; ++i) {
+        printk_hex_nibble(out, (uint8_t)val);
+        val = val >> 4;
+    }
+}
+
+static void printk_hex_nibble(const unsigned short out, uint8_t val) {
+    switch (val & 0x0F) {
+        case 0x0:
+            printk_char(out, '0');
+            break;
+        case 0x1:
+            printk_char(out, '1');
+            break;
+        case 0x2:
+            printk_char(out, '2');
+            break;
+        case 0x3:
+            printk_char(out, '3');
+            break;
+        case 0x4:
+            printk_char(out, '4');
+            break;
+        case 0x5:
+            printk_char(out, '5');
+            break;
+        case 0x6:
+            printk_char(out, '6');
+            break;
+        case 0x7:
+            printk_char(out, '7');
+            break;
+        case 0x8:
+            printk_char(out, '8');
+            break;
+        case 0x9:
+            printk_char(out, '9');
+            break;
+        case 0xa:
+            printk_char(out, 'a');
+            break;
+        case 0xb:
+            printk_char(out, 'b');
+            break;
+        case 0xc:
+            printk_char(out, 'c');
+            break;
+        case 0xd:
+            printk_char(out, 'd');
+            break;
+        case 0xe:
+            printk_char(out, 'e');
+            break;
+        case 0xf:
+            printk_char(out, 'f');
+            break;
+    }
 }
 
 static void printk_char(const unsigned short out, char c) {
