@@ -1,25 +1,32 @@
-global loader
+; vim ft=nasm
 
-extern kmain
-
-MAGIC_NUMBER        equ 0x1BADB002
-FLAGS               equ 0x0
-CHECKSUM            equ -MAGIC_NUMBER
-KERNEL_STACK_SIZE   equ 4096
-
-section .bss
+section .multiboot
 align 4
-kernel_stack:
-    resb KERNEL_STACK_SIZE
+mboot:
+    MBALIGN             equ 1<<0
+    MEMINFO             equ 1<<1
+    FLAGS               equ MBALIGN | MEMINFO
+    MAGIC_NUMBER        equ 0x1BADB002
+    CHECKSUM            equ -(MAGIC_NUMBER+FLAGS)
 
-section .text
-align 4
     dd MAGIC_NUMBER
     dd FLAGS
     dd CHECKSUM
 
+section .bss,nobits
+align 4
+stack_bottom:
+times 16384 db 0
+stack_top:
+
+section .text
+global loader
 loader:
-    mov esp, kernel_stack + KERNEL_STACK_SIZE
+    mov esp, stack_top
+
+    extern kmain
     call kmain
+    cli
 .loop:
+    hlt
     jmp .loop
