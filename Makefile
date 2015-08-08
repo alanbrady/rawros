@@ -4,7 +4,7 @@ OBJECTS = $(SOURCES:.s=.o)
 OBJECTS := $(OBJECTS:.c=.o)
 CC = gcc
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Og -g
+	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -O2
 LDFLAGS = -T link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf32
