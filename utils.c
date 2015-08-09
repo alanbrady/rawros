@@ -15,6 +15,7 @@ static void printk_hex32(const unsigned short out, uint32_t val);
 static void printk_hex64(const unsigned short out, uint64_t val);
 
 static void printk_hex_nibble(const unsigned short out, uint8_t val);
+static void printk_hex_prefix(const unsigned short out);
 
 static void printk_char(const unsigned short out, char c);
 static void printk_string(const unsigned short out, char* str);
@@ -202,17 +203,19 @@ static void printk_hex8(const unsigned short out, uint8_t val) {
 
 static void printk_hex16(const unsigned short out, uint16_t val) {
     int i = 0;
-    for (; i < 2; ++i) {
+    for (; i < 4; ++i) {
         printk_hex_nibble(out, (uint8_t)val);
         val = val >> 4;
     }
 }
 
 static void printk_hex32(const unsigned short out, uint32_t val) {
-    int i = 0;
-    for (; i < 8; ++i) {
-        printk_hex_nibble(out, (uint8_t)val);
-        val = val >> 4;
+    int i;
+
+    printk_hex_prefix(out);
+
+    for (i = 7; i >= 0; --i) {
+        printk_hex_nibble(out, (uint8_t)(val >> (i*4)));
     }
 }
 
@@ -275,6 +278,11 @@ static void printk_hex_nibble(const unsigned short out, uint8_t val) {
             printk_char(out, 'f');
             break;
     }
+}
+
+static void printk_hex_prefix(const unsigned short out) {
+    printk_char(out, '0');
+    printk_char(out, 'x');
 }
 
 static void printk_char(const unsigned short out, char c) {
