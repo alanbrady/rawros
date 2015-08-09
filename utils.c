@@ -41,33 +41,39 @@ void printk(const unsigned short out, const char* fmt, ...) {
 
     va_list vl;
     va_start(vl, fmt);
-    /*int val = va_arg(vl, int);*/
 
     fmtSize = strlen(fmt);
     fmtPtr = fmt;
 
     for (i = 0; i < fmtSize; ++i) {
-        if (*fmtPtr == '%') {
+        if (*fmtPtr == '\0') {
+            /* null char, quit */
+            break;
+        } else if (*fmtPtr == '%') {
+            /* format char escape */
             char type = *(++fmtPtr);
             switch (type) {
-                case 'u':
+                case 'u': /* unsigned int */
                     val.u = va_arg(vl, unsigned int);
                     printk_uint(out, val.u);
                     break;
-                case 'd':
+                case 'd': /* int */
                     val.d = va_arg(vl, int);
                     printk_int(out, val.d);
                     break;
-                case 'h':
+                case 'h': /* 32 bit hex */
                     val.h = va_arg(vl, uint32_t);
                     printk_hex32(out, val.h);
                     break;
-                case 's':
-                    /*(void)printk_string;*/
+                case 's': /* string (char*) */
                     val.s = va_arg(vl, char*);
                     printk_string(out, val.s);
                     break;
             }
+            /* since whatever was in the format specifier has taken it's place,
+             * adjust the length to reflect the length of chars to actually
+             * parse and print */
+            fmtSize -= 2;
         } else {
             printk_char(out, *fmtPtr);
         }
