@@ -20,6 +20,8 @@ void fb_clear() {
             fb_write_cell((i*ROW_HEIGHT)+k, '\0', FB_LIGHTGREY, FB_BLACK);
         }
     }
+    fb_set_cursor_pos(0);
+    fb_curr_pos = 0;
 }
 
 void fb_write_char(const char c) {
@@ -29,4 +31,5 @@ void fb_write_char(const char c) {
         fb_write_cell(fb_curr_pos, c, FB_LIGHTGREY, FB_BLACK);
         fb_curr_pos+=2;
     }
+    fb_set_cursor_pos(fb_curr_pos/2);
 }
