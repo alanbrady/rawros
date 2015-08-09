@@ -36,6 +36,6 @@ void fb_write_cell_string(const unsigned int cell, const char* str,
 void fb_write_cell_data(const unsigned int cell, const char* data, 
         const unsigned int len, unsigned char fg, unsigned char bg); 
 
-void fb_move_cursor(const unsigned char pos);
+void fb_move_cursor(const unsigned short pos);
 
 #endif

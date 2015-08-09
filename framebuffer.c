@@ -62,10 +62,10 @@ void fb_write_cell_data(const unsigned int cell,
     }
 }
 
-void fb_move_cursor(const unsigned char pos) {
-    outb(FB_COMMAND_PORT, FB_LOW_BYTE_COMM);
-    outb(FB_DATA_PORT, (unsigned char)(pos & 0xFF));
+void fb_move_cursor(const unsigned short pos) {
     outb(FB_COMMAND_PORT, FB_HIGH_BYTE_COMM);
     outb(FB_DATA_PORT, (unsigned char)((pos >> 8) & 0xFF));
+    outb(FB_COMMAND_PORT, FB_LOW_BYTE_COMM);
+    outb(FB_DATA_PORT, (unsigned char)(pos & 0xFF));
 }
 
