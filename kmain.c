@@ -21,6 +21,10 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
                 sizeof(uint32_t));
     }
 
+    printk(PRINTK_FB, "bitsize - char:  %u\n", sizeof(char)*8);
+    printk(PRINTK_FB, "bitsize - short: %u\n", sizeof(short)*8);
+    printk(PRINTK_FB, "bitsize - int:   %u\n", sizeof(int)*8);
+    printk(PRINTK_FB, "bitsize - long:  %u\n", sizeof(long)*8);
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");
