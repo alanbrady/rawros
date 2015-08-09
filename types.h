@@ -20,6 +20,7 @@ typedef signed long long int64_t;
 
 typedef uint32_t intptr_t;
 
+/* implement GNU stdargs virtual arguments */
 typedef unsigned char* va_list;
 #define va_start(list, last) (list = ((va_list)&last) + sizeof(last))
 #define va_arg(list, type) (*(type*)((list += sizeof(type)) - sizeof(type)))
