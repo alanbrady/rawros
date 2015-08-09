@@ -12,7 +12,7 @@ SECTIONS {
     .text ALIGN(0x1000) : AT(ADDR(.text))
     {
         *(.text)
-        *(.rodata)
+        *(.rodata*)
     }
 
     .data ALIGN (0x1000) : AT(ADDR(.data))
