@@ -2,7 +2,7 @@
 
 unsigned int strlen(const char* str) {
     const char* strStart = str;
-    while (*(str++) != '\0') {}
+    while (*(str) != '\0') {++str;}
     return str-strStart;
 }
 
