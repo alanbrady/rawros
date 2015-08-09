@@ -314,7 +314,7 @@ static void printk_string(const unsigned short out, char* str) {
     len = strlen(str);
     switch(out) {
         case PRINTK_FB:
-            fb_write_string(str, 3);
+            fb_write_string(str, len);
             break;
         case PRINTK_COM1:
             if (!isCom1Init) {
