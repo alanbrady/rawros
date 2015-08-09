@@ -1,28 +1,29 @@
-#include "fb_out_drv.h"
 #include "utils.h"
 #include "memory.h"
-#include "serial.h"
 #include "gdt.h"
 #include "idt.h"
-#include "system.h"
 
 // main function loaded through loader.asm
-int kmain() {
-    raminfo_t raminfo;
+int kmain(multiboot_info_t* mbi, uint32_t magic) {
+    (void)magic; /* TODO: check if multiboot loader magic number is correct */
 
     gdt_init();
     idt_init();
+    clrscr();
 
-    unsigned int num = get_raminfo((intptr_t)&raminfo);
-    (void)num;
+    multiboot_memory_map_t* mmap = (multiboot_memory_map_t*)mbi->mmap_addr;
+    unsigned int mem_index = 0;
+    while ((uint32_t)mmap < (mbi->mmap_addr + mbi->mmap_length)) {
+        printk(PRINTK_FB, "memory %u: type:%u base: %H length: %H\n",
+                mem_index++, mmap->type, mmap->base_addr, mmap->length);
 
-    char* buf = "aaaa";
-    memset(buf+2, 'b', 2);
-    printk(PRINTK_FB, buf);
-    printk(PRINTK_FB, "Hello!");
+        mmap = (multiboot_memory_map_t*) ((uint32_t)mmap + mmap->size +
+                sizeof(uint32_t));
+    }
+
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");
 
     return 0;
-} 
+}

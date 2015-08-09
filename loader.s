@@ -23,6 +23,8 @@ section .text
 global loader
 loader:
     mov esp, stack_top
+    push eax
+    push ebx
 
     extern kmain
     call kmain

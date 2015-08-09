@@ -20,12 +20,3 @@ idt_flush:
     lidt [eax]
     ret
 
-global get_raminfo
-get_raminfo:
-    mov edi, [esp+4]
-    xor ebx, ebx
-    mov edx, 0x534D4150
-    mov eax, 0x0000E820
-    int 0x15
-    mov eax, ecx
-    ret
