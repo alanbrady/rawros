@@ -1,11 +1,11 @@
-; vim ft=nasm
+; vim: ft=nasm
 
 section .multiboot
 align 4
 mboot:
     MBALIGN             equ 1<<0
     MEMINFO             equ 1<<1
-    FLAGS               equ MBALIGN | MEMINFO
+    FLAGS               equ (MBALIGN | MEMINFO)
     MAGIC_NUMBER        equ 0x1BADB002
     CHECKSUM            equ -(MAGIC_NUMBER+FLAGS)
 
