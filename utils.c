@@ -26,7 +26,7 @@ static unsigned char isCom2Init = 0;
 typedef union {
     unsigned int u;
     int d;
-    uint32_t h;
+    uint64_t h;
     char* s;
 } printk_val_t;
 
@@ -38,7 +38,6 @@ void printk(const unsigned short out, const char* fmt, ...) {
 
     (void)printk_hex8;
     (void)printk_hex16;
-    (void)printk_hex64;
 
     va_list vl;
     va_start(vl, fmt);
@@ -64,7 +63,11 @@ void printk(const unsigned short out, const char* fmt, ...) {
                     break;
                 case 'h': /* 32 bit hex */
                     val.h = va_arg(vl, uint32_t);
-                    printk_hex32(out, val.h);
+                    printk_hex32(out, (uint32_t)val.h);
+                    break;
+                case 'H': /* 64 bit hex */
+                    val.h = va_arg(vl, uint64_t);
+                    printk_hex64(out, val.h);
                     break;
                 case 's': /* string (char*) */
                     val.s = va_arg(vl, char*);
@@ -222,9 +225,11 @@ static void printk_hex32(const unsigned short out, uint32_t val) {
 
 static void printk_hex64(const unsigned short out, uint64_t val) {
     int i;
-    for (i = 0; i < 16; ++i) {
-        printk_hex_nibble(out, (uint8_t)val);
-        val = val >> 4;
+
+    printk_hex_prefix(out);
+
+    for (i = 15; i >= 0; --i) {
+        printk_hex_nibble(out, (uint8_t)(val >> (i*4)));
     }
 }
 
