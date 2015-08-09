@@ -71,10 +71,7 @@ void printk(const unsigned short out, const char* fmt, ...) {
                     printk_string(out, val.s);
                     break;
             }
-            /* since whatever was in the format specifier has taken it's place,
-             * adjust the length to reflect the length of chars to actually
-             * parse and print */
-            fmtSize -= 2;
+            ++i; /* we ate two characters, so increment our loop index */
         } else {
             printk_char(out, *fmtPtr);
         }
