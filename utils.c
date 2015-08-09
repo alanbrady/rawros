@@ -129,57 +129,61 @@ void int_to_str(char* buf, int i) {
 
 static void printk_uint(const unsigned short out, unsigned int val) {
     /* largest unsigned number for 0xFFFFFFFF = 4294967295 */
-    unsigned int numLen = 11;
-    unsigned int div = 1000000000;
-    char numBuf[11];
-    memset(numBuf, '\0', 11);
+    if (val == 0) {
+        printk_char(out, '0');
+    } else {
+        unsigned int numLen = 11;
+        unsigned int div = 1000000000;
+        char numBuf[11];
+        memset(numBuf, '\0', 11);
 
-    while ((val/div) == 0) {
-        --numLen;
-        div /= 10;
-    }
-    numLen -= 2;
-    do {
-        int mod = val%10;
-        char c;
-        switch(mod) {
-            case 0:
-                c = '0';
-                break;
-            case 1:
-                c = '1';
-                break;
-            case 2:
-                c = '2';
-                break;
-            case 3:
-                c = '3';
-                break;
-            case 4:
-                c = '4';
-                break;
-            case 5:
-                c = '5';
-                break;
-            case 6:
-                c = '6';
-                break;
-            case 7:
-                c = '7';
-                break;
-            case 8:
-                c = '8';
-                break;
-            case 9:
-                c = '9';
-                break;
-            default:
-                c = '?';
+        while ((val/div) == 0) {
+            --numLen;
+            div /= 10;
         }
-        numBuf[numLen--] = c;
-        val = val/10;
-    } while (val != 0);
-    printk_string(out, numBuf);
+        numLen -= 2;
+        do {
+            int mod = val%10;
+            char c;
+            switch(mod) {
+                case 0:
+                    c = '0';
+                    break;
+                case 1:
+                    c = '1';
+                    break;
+                case 2:
+                    c = '2';
+                    break;
+                case 3:
+                    c = '3';
+                    break;
+                case 4:
+                    c = '4';
+                    break;
+                case 5:
+                    c = '5';
+                    break;
+                case 6:
+                    c = '6';
+                    break;
+                case 7:
+                    c = '7';
+                    break;
+                case 8:
+                    c = '8';
+                    break;
+                case 9:
+                    c = '9';
+                    break;
+                default:
+                    c = '?';
+            }
+            numBuf[numLen--] = c;
+            val = val/10;
+        } while (val != 0);
+        printk_string(out, numBuf);
+    }
 }
 
 static void printk_int(const unsigned short out, int val) {
