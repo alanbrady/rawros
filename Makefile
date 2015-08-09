@@ -4,7 +4,7 @@ OBJECTS = $(SOURCES:.s=.o)
 OBJECTS := $(OBJECTS:.c=.o)
 CC = gcc
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -O2
+	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Og -g
 LDFLAGS = -T link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf32
@@ -13,8 +13,8 @@ ISO_NAME=os.iso
 BOCHS=./bochs
 BOCHS_FLAGS= -f ./bochs_config -q
 QEMU=qemu-system-i386
-QEMU_FLAGS= -cdrom $(ISO_NAME)
-QEMU_DEBUG_FLAGS= -s -S -monitor stdio -D ./qemu.log
+QEMU_FLAGS= -cdrom $(ISO_NAME) -serial stdio
+QEMU_DEBUG_FLAGS= -s -S
 
 all: iso
 
