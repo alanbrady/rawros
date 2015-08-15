@@ -1,15 +1,22 @@
 ; vim: ft=nasm
 global outb
 outb:
+    push eax
+    push edx
     mov al, [esp + 8]
     mov dx, [esp + 4]
     out dx, al
+    pop edx
+    pop eax
     ret
 
 global inb
 inb:
+    push edx
     mov dx, [esp + 4]
     in al, dx
+    pop edx
+    ret
 
 global io_wait
 io_wait:
