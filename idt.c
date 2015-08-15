@@ -32,6 +32,20 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+extern void isr32();
+extern void isr33();
+extern void isr34();
+extern void isr35();
+extern void isr36();
+extern void isr37();
+extern void isr38();
+extern void isr39();
+extern void isr40();
+extern void isr41();
+extern void isr42();
+extern void isr43();
+extern void isr44();
+extern void isr45();
 
 void idt_init() {
     idt_ptr.size = sizeof(idt_entry_t)*NUM_IDT_ENTRIES - 1;
@@ -69,6 +83,20 @@ void idt_init() {
     idt_set_entry( 29,  (unsigned long)&isr29,  0x08, 0x8E);
     idt_set_entry( 30,  (unsigned long)&isr30,  0x08, 0x8E);
     idt_set_entry( 31,  (unsigned long)&isr31,  0x08, 0x8E);
+    idt_set_entry( 32,  (unsigned long)&isr32,  0x08, 0x8E);
+    idt_set_entry( 33,  (unsigned long)&isr33,  0x08, 0x8E);
+    idt_set_entry( 34,  (unsigned long)&isr34,  0x08, 0x8E);
+    idt_set_entry( 35,  (unsigned long)&isr35,  0x08, 0x8E);
+    idt_set_entry( 36,  (unsigned long)&isr36,  0x08, 0x8E);
+    idt_set_entry( 37,  (unsigned long)&isr37,  0x08, 0x8E);
+    idt_set_entry( 38,  (unsigned long)&isr38,  0x08, 0x8E);
+    idt_set_entry( 39,  (unsigned long)&isr39,  0x08, 0x8E);
+    idt_set_entry( 40,  (unsigned long)&isr40,  0x08, 0x8E);
+    idt_set_entry( 41,  (unsigned long)&isr41,  0x08, 0x8E);
+    idt_set_entry( 42,  (unsigned long)&isr42,  0x08, 0x8E);
+    idt_set_entry( 43,  (unsigned long)&isr43,  0x08, 0x8E);
+    idt_set_entry( 44,  (unsigned long)&isr44,  0x08, 0x8E);
+    idt_set_entry( 45,  (unsigned long)&isr45,  0x08, 0x8E);
 
     idt_flush((unsigned long)&idt_ptr);
 }
