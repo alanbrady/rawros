@@ -3,6 +3,8 @@
 #include "gdt.h"
 #include "idt.h"
 #include "string.h"
+#include "paging.h"
+#include "pic.h"
 
 static void print_memory_info(multiboot_info_t* mbi);
 
@@ -12,6 +14,10 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
 
     gdt_init();
     idt_init();
+
+    pic_init();
+    pic_set_mask(PIC1_KBD_IRQ, PIC_NO_IRQ);
+
     clrscr();
 
     print_memory_info(mbi);
@@ -20,6 +26,7 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
     printk(PRINTK_FB, "bitsize - short: %u\n", sizeof(short)*8);
     printk(PRINTK_FB, "bitsize - int:   %u\n", sizeof(int)*8);
     printk(PRINTK_FB, "bitsize - long:  %u\n", sizeof(long)*8);
+    printk(PRINTK_FB, "sizeof page_entry_t: %u\n", sizeof(page_entry_t));
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");
