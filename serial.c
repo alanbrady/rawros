@@ -31,11 +31,6 @@ void serial_init(unsigned short com) {
 }
 
 void serial_set_baud_rate(unsigned short com, unsigned int frequency) {
-    // old, probably garbage, left for reference until tested
-    /*outb(SERIAL_LINE_CONTROL_REG(com), SERIAL_LINE_ENABLE_DLAB);*/
-    /*outb(SERIAL_DATA_PORT(com), divisor & 0x00FF);*/
-    /*outb(SERIAL_DATA_PORT(com), (divisor >> 8) & 0x00FF);*/
-
     // dlab changes the way base and base+1 behave
     // with it enabled +0 and +1 are the divisor registers
     serial_enable_dlab(com);
