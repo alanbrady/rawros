@@ -1,0 +1,10 @@
+*.o
+*.swp
+bochs
+*.bak
+.storage
+*.txt
+*.elf
+os.iso
+*.out
+.gdbinit
