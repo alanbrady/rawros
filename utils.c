@@ -32,8 +32,9 @@ typedef union {
 
 void printk(const unsigned short out, const char* fmt, ...) {
     const char* fmtPtr;
+    const char* fmtPtrEnd;
     unsigned int fmtSize;
-    unsigned int i;
+    /*unsigned int i;*/
     printk_val_t val;
 
     (void)printk_hex8;
@@ -44,8 +45,10 @@ void printk(const unsigned short out, const char* fmt, ...) {
 
     fmtSize = strlen(fmt);
     fmtPtr = fmt;
+    fmtPtrEnd = fmt+fmtSize;
 
-    for (i = 0; i < fmtSize; ++i) {
+    /*for (i = 0; i < fmtSize; ++i) {*/
+    for (; fmtPtr < fmtPtrEnd; ++fmtPtr) {
         if (*fmtPtr == '\0') {
             /* null char, quit */
             break;
@@ -74,13 +77,10 @@ void printk(const unsigned short out, const char* fmt, ...) {
                     printk_string(out, val.s);
                     break;
             }
-            ++i; /* we ate two characters, so increment our loop index */
         } else {
             printk_char(out, *fmtPtr);
         }
-        ++fmtPtr;
     }
-
     va_end(vl);
 }
 
