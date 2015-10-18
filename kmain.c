@@ -14,9 +14,6 @@ static void print_memory_info(multiboot_info_t* mbi);
 int kmain(multiboot_info_t* mbi, uint32_t magic) {
     (void)magic; /* TODO: check if multiboot loader magic number is correct */
 
-    fb_enable_cursor();
-
-    fb_move_cursor(2);
 
     gdt_init();
     idt_init();
@@ -24,7 +21,18 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
     pic_init();
     pic_set_mask(PIC1_KBD_IRQ, PIC_NO_IRQ);
 
+    fb_enable_cursor();
     clrscr();
+
+    printk(PRINTK_FB, "Cursor position: %u\n", fb_get_cursor());
+
+    printk(PRINTK_FB, "Cursor start: %h\n",
+            (unsigned int)(fb_get_cursor_start()));
+
+    printk(PRINTK_FB, "Cursor end:   %h\n",
+            (unsigned int)(fb_get_cursor_end()));
+
+    printk(PRINTK_FB, "Frame buffer address: %h\n", fb_get_start_address());
 
     print_memory_info(mbi);
 
