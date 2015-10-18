@@ -24,9 +24,12 @@
 #define FB_DATA_PORT        0x3D5
 
 // Frame buffer port commands
-#define FB_DATA_COMM        0XA
-#define FB_HIGH_BYTE_COMM   0xE
-#define FB_LOW_BYTE_COMM    0xF
+#define FB_CURSOR_START     0x0A
+#define FB_CURSOR_END       0x0B
+#define FB_START_ADDR_HI    0x0C
+#define FB_START_ADDR_LOW   0x0D
+#define FB_HIGH_BYTE_COMM   0x0E
+#define FB_LOW_BYTE_COMM    0x0F
 
 /**
  * fb_write_cell
@@ -69,6 +72,14 @@ void fb_write_cell_data(const unsigned int cell, const char* data,
         const unsigned int len, unsigned char fg, unsigned char bg); 
 
 void fb_move_cursor(const unsigned short pos);
+
+unsigned short fb_get_cursor();
+
+unsigned char fb_get_cursor_start();
+
+unsigned char fb_get_cursor_end();
+
+unsigned int fb_get_start_address();
 
 void fb_enable_cursor();
 
