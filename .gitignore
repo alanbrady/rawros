@@ -8,3 +8,4 @@ bochs
 os.iso
 *.out
 .gdbinit
+bochs_config
