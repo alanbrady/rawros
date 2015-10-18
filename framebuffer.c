@@ -38,3 +38,10 @@ void fb_move_cursor(const unsigned short pos) {
     outb(FB_DATA_PORT, (unsigned char)(pos & 0xFF));
 }
 
+void fb_enable_cursor() {
+    outb(FB_COMMAND_PORT, FB_DATA_COMM);
+    char curstart = inb(FB_COMMAND_PORT) & 0x1F;
+
+    outb(FB_COMMAND_PORT, FB_DATA_COMM);
+    outb(FB_DATA_PORT, curstart | 0x20);
+}
