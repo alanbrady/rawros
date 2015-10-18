@@ -6,11 +6,17 @@
 #include "paging.h"
 #include "pic.h"
 
+#include "framebuffer.h"
+
 static void print_memory_info(multiboot_info_t* mbi);
 
 // main function loaded through loader.asm
 int kmain(multiboot_info_t* mbi, uint32_t magic) {
     (void)magic; /* TODO: check if multiboot loader magic number is correct */
+
+    fb_enable_cursor();
+
+    fb_move_cursor(2);
 
     gdt_init();
     idt_init();
