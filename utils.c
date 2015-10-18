@@ -34,7 +34,6 @@ void printk(const unsigned short out, const char* fmt, ...) {
     const char* fmtPtr;
     const char* fmtPtrEnd;
     unsigned int fmtSize;
-    /*unsigned int i;*/
     printk_val_t val;
 
     (void)printk_hex8;
