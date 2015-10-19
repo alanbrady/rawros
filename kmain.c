@@ -5,7 +5,6 @@
 #include "string.h"
 #include "paging.h"
 #include "pic.h"
-
 #include "framebuffer.h"
 
 static void print_memory_info(multiboot_info_t* mbi);
@@ -20,6 +19,8 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
 
     pic_init();
     pic_set_mask(PIC1_KBD_IRQ, PIC_NO_IRQ);
+
+    asm volatile("sti");
 
     fb_enable_cursor();
     clrscr();
@@ -42,8 +43,9 @@ int kmain(multiboot_info_t* mbi, uint32_t magic) {
     printk(PRINTK_FB, "bitsize - long:  %u\n", sizeof(long)*8);
     printk(PRINTK_FB, "sizeof page_entry_t: %u\n", sizeof(page_entry_t));
 
-    asm volatile("int $0x3");
-    asm volatile("int $0x4");
+    for (;;) {
+        asm volatile("hlt");
+    }
 
     return 0;
 }
