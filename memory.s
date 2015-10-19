@@ -1,4 +1,4 @@
-; vim: set ft=nasm
+; vim: ft=nasm
 global memset
 memset:
     push ebp
